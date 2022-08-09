@@ -452,18 +452,30 @@ for (i=0;i<counts; i++){
 	saveAs(".tif", Results+getTitle()); 
 	run("Clear Results");
 	roiManager("reset");
-	
+
+}
 /////////////////////////////////////// Central Nuclei Detection /////////////////////////////////////////
 	centronuclei_counts = newArray(counts);
 if (isOpen("DAPI")) {
 	roiManager("open", Results+"ROISet.zip");
+	roiManager("multi-measure append");
 	counts=roiManager("count");
 for(i=0; i<counts; i++) {
+		Size = getResult("Area", i);
     	roiManager("Select", i);
-    	run("Enlarge...", "enlarge=-5");
-    	roiManager("Update");
+    if (Size < 200) {
+    	run("Enlarge...", "enlarge=-3");    
 }
+	if ((Size >= 200)&&(Size < 800)) {
+		run("Enlarge...", "enlarge=-5");
 }
+	else {
+		run("Enlarge...", "enlarge=-9");
+}
+		roiManager("Update");
+}
+		run("Clear Results");
+
 	selectWindow("DAPI");
 	setAutoThreshold("Otsu dark");
 	setOption("BlackBackground", true);
@@ -557,3 +569,4 @@ setBatchMode(false);
 
 	Done = Dialog.getCheckbox();
 }
+
