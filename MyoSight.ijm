@@ -379,9 +379,7 @@ if (FTFinished == false) {
 }
 }
 
-showMessage("MyoSight will now analyze myonuclei and may take 2-3 minutes.\nDuring this process, do not click on any FIJI windows.");
 
-setBatchMode(true);
 //////////////////////////////// Saving CSA and Fibertype Analysis ////////////////////////////////////////	
 	run("Clear Results");
 if (Image_Type == "Bio-format Image")  {
@@ -405,6 +403,12 @@ if (Image_Type == "Bio-format Image")  {
 	saveAs(".tif", Results+getTitle());
 	
 }
+
+if (isOpen("DAPI")) {
+
+showMessage("MyoSight will now analyze myonuclei and may take 2-3 minutes.\nDuring this process, do not click on any FIJI windows.");
+
+setBatchMode(true);
 ////////////////////////////////////////// Myonuclei Detection ///////////////////////////////////////////
 
 if (isOpen("DAPI")) {
@@ -503,7 +507,7 @@ for (i=0;i<counts; i++){
 	run("Clear Results");
 	roiManager("reset"); 
 }
-
+}
 /////////////////////////////////////// Saving Final Results //////////////////////////////////////
 	roiManager("open", Results+"ROISet.zip");
 	selectWindow("Fiber Borders");
